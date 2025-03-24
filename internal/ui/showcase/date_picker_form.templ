@@ -4,23 +4,24 @@ import "github.com/axzilla/templui/components"
 
 templ DatePickerForm() {
 	<div class="w-full max-w-sm">
-		@components.FormItem(components.FormItemProps{}) {
+		@components.FormItem() {
 			@components.FormLabel(components.FormLabelProps{
-				Text: "Select a date",
-				For:  "date-picker-form",
-			})
+				For: "date-picker-form",
+			}) {
+				Select a date
+			}
 			@components.DatePicker(components.DatePickerProps{
 				ID:       "date-picker-form",
-				Name:     "date-picker-form",
 				HasError: true,
 			})
-			@components.FormDescription(components.FormDescriptionProps{}) {
+			@components.FormDescription() {
 				Select a date from the calendar.
 			}
 			@components.FormMessage(components.FormMessageProps{
-				Message: "Please select a date",
-				Type:    "error",
-			})
+				Variant: components.FormMessageVariantError,
+			}) {
+				Select a valid date
+			}
 		}
 	</div>
 }

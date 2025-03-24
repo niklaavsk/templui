@@ -1,0 +1,36 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ AccordionDefault() {
+	<div class="w-full max-w-sm">
+		@components.Accordion(components.AccordionProps{
+			Class: "w-full",
+		}) {
+			@components.AccordionItem() {
+				@components.AccordionTrigger() {
+					Is it accessible?
+				}
+				@components.AccordionContent() {
+					Yes. It adheres to the WAI-ARIA design pattern.
+				}
+			}
+			@components.AccordionItem() {
+				@components.AccordionTrigger() {
+					Is it styled?
+				}
+				@components.AccordionContent() {
+					Yes. It comes with default styles that matches the other components aesthetic.
+				}
+			}
+			@components.AccordionItem() {
+				@components.AccordionTrigger() {
+					Is it animated?
+				}
+				@components.AccordionContent() {
+					Yes. It's animated by default, but you can disable it if you prefer.
+				}
+			}
+		}
+	</div>
+}

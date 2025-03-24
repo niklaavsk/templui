@@ -659,13 +659,14 @@ templ Themes() {
 							<div class="text-xs text-muted-foreground">Pick a style and color for your components.</div>
 						</div>
 						@components.Button(components.ButtonProps{
-							Size:     "icon",
-							Variant:  "ghost",
-							IconLeft: icons.RotateCcw(icons.IconProps{Size: "14"}),
+							Size:    components.ButtonSizeIcon,
+							Variant: components.ButtonVariantOutline,
 							Attributes: templ.Attributes{
 								"@click": "resetTheme",
 							},
-						})
+						}) {
+							@icons.RotateCcw(icons.IconProps{Size: 14})
+						}
 					</div>
 					@ThemeCustomizer(ThemeCustomizerProps{
 						CurrentTheme:  "orange",
@@ -687,7 +688,7 @@ templ Themes() {
 
 templ ThemePreview() {
 	<div id="theme-preview" class="theme-preview p-6 border rounded-lg">
-		@components.Card(components.CardProps{}) {
+		@components.Card() {
 			@components.CardHeader() {
 				@components.CardTitle() {
 					User Registration 
@@ -698,136 +699,149 @@ templ ThemePreview() {
 			}
 			@components.CardContent() {
 				<form class="space-y-4">
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{For: "username", Text: "Username"})
+					@components.FormItem() {
+						@components.FormLabel(components.FormLabelProps{
+							For: "username",
+						}) {
+							Username
+						}
 						@components.Input(components.InputProps{
 							ID:          "username",
-							Name:        "username",
 							Type:        components.InputTypeText,
 							Placeholder: "Enter your username",
 						})
 					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{For: "email", Text: "Email"})
+					@components.FormItem() {
+						@components.FormLabel(components.FormLabelProps{
+							For: "email",
+						}) {
+							Email
+						}
 						@components.Input(components.InputProps{
 							ID:          "email",
-							Name:        "email",
 							Type:        components.InputTypeEmail,
 							Placeholder: "Enter your email",
 						})
 					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{For: "password", Text: "Password"})
+					@components.FormItem() {
+						@components.FormLabel(components.FormLabelProps{
+							For: "password",
+						}) {
+							Password
+						}
 						@components.Input(components.InputProps{
 							ID:          "password",
-							Name:        "password",
 							Type:        components.InputTypePassword,
 							Placeholder: "Enter your password",
 						})
 					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{For: "birthdate", Text: "Birth Date"})
+					@components.FormItem() {
+						@components.FormLabel(components.FormLabelProps{
+							For: "birthdate",
+						}) {
+							Birth Date
+						}
 						@components.DatePicker(components.DatePickerProps{
 							ID:          "birthdate",
-							Name:        "birthdate",
 							Placeholder: "Select your birth date",
 						})
 					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{For: "contact-method", Text: "Contact Method"})
-						@components.FormItemFlex(components.FormItemProps{}) {
+					@components.FormItem() {
+						<p class="text-sm text-muted-foreground">Contact Method</p>
+						@components.FormItemFlex() {
 							@components.Radio(components.RadioProps{
-								Value: "email",
-								ID:    "contact-email",
-								Name:  "contact-method",
+								ID:   "contact-email",
+								Name: "contact-method",
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "contact-email",
-								Text: "Email",
-							})
+								For: "contact-email",
+							}) {
+								Email
+							}
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Radio(components.RadioProps{
-								Value: "phone",
-								ID:    "contact-phone",
-								Name:  "contact-method",
+								ID:   "contact-phone",
+								Name: "contact-method",
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "contact-phone",
-								Text: "Phone",
-							})
+								For: "contact-phone",
+							}) {
+								Phone
+							}
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Radio(components.RadioProps{
-								Value:      "mail",
-								ID:         "contact-mail",
-								Name:       "contact-method",
-								Attributes: templ.Attributes{"disabled": "true"},
+								ID:       "contact-mail",
+								Name:     "contact-method",
+								Disabled: true,
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "contact-mail",
-								Text: "Physical Mail",
-							})
+								For: "contact-mail",
+							}) {
+								Physical Mail
+							}
 						}
 					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{Text: "Preferences"})
-						@components.FormItemFlex(components.FormItemProps{}) {
+					@components.FormItem() {
+						<p class="text-sm text-muted-foreground">Preferences</p>
+						@components.FormItemFlex() {
 							@components.Toggle(components.ToggleProps{
 								ID:   "marketing",
 								Name: "marketing",
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "marketing",
-								Text: "Receive marketing emails",
-							})
+								For: "marketing",
+							}) {
+								Receive marketing emails
+							}
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Toggle(components.ToggleProps{
 								ID:         "notifications",
 								Name:       "notifications",
 								Attributes: templ.Attributes{"checked": "true"},
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "notifications",
-								Text: "Enable notifications",
-							})
+								For: "notifications",
+							}) {
+								Enable notifications
+							}
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Toggle(components.ToggleProps{
 								ID:         "beta",
 								Name:       "beta",
 								Attributes: templ.Attributes{"disabled": "true"},
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "beta",
-								Text: "Join beta program",
-							})
+								For: "beta",
+							}) {
+								Join beta program
+							}
 						}
 					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{Text: "Terms and Conditions"})
-						@components.FormItemFlex(components.FormItemProps{}) {
+					@components.FormItem() {
+						<p class="text-sm text-muted-foreground">Terms and Conditions</p>
+						@components.FormItemFlex() {
 							@components.Checkbox(components.CheckboxProps{
-								ID:    "terms",
-								Name:  "terms",
-								Value: "accepted",
+								ID: "terms",
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "terms",
-								Text: "I accept the terms and conditions",
-							})
+								For: "terms",
+							}) {
+								I accept the terms and conditions
+							}
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Checkbox(components.CheckboxProps{
-								ID:    "newsletter",
-								Name:  "newsletter",
-								Value: "subscribed",
+								ID: "newsletter",
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "newsletter",
-								Text: "Subscribe to newsletter",
-							})
+								For: "newsletter",
+							}) {
+								Subscribe to newsletter
+							}
 						}
 					}
 				</form>
@@ -835,13 +849,13 @@ templ ThemePreview() {
 			@components.CardFooter() {
 				<div class="flex justify-between w-full">
 					@components.Button(components.ButtonProps{
-						Text:    "Cancel",
-						Variant: "secondary",
-					})
-					@components.Button(components.ButtonProps{
-						Text:    "Register",
-						Variant: "primary",
-					})
+						Variant: components.ButtonVariantSecondary,
+					}) {
+						Cancel
+					}
+					@components.Button() {
+						Register
+					}
 				</div>
 			}
 		}
@@ -862,12 +876,22 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			@RadiusSelector()
 			@ModeSelector()
 		</div>
-		@components.ModalTrigger("css-modal") {
-			@components.Button(components.ButtonProps{Text: "Generate and Copy CSS", FullWidth: true, Attributes: templ.Attributes{
-				"@click": "getGeneratedCSS",
-			}})
+		@components.ModalTrigger(components.ModalTriggerProps{
+			ModalID: "css-modal",
+		}) {
+			@components.Button(components.ButtonProps{
+				FullWidth: true,
+				Attributes: templ.Attributes{
+					"@click": "getGeneratedCSS",
+				},
+			}) {
+				Generate and Copy CSS
+			}
 		}
-		@components.Modal(components.ModalProps{ID: "css-modal", Class: "max-w-xl"}) {
+		@components.Modal(components.ModalProps{
+			ID:    "css-modal",
+			Class: "max-w-xl",
+		}) {
 			@components.ModalHeader() {
 				Generated CSS Code
 			}
@@ -877,15 +901,19 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			@components.ModalFooter() {
 				<div class="flex gap-2">
 					@components.Button(components.ButtonProps{
-						Text:       "Copy to Clipboard",
 						Variant:    "primary",
 						Attributes: templ.Attributes{"@click": "copyToClipboard"},
-					})
-					@components.ModalClose("css-modal") {
+					}) {
+						Copy to Clipboard
+					}
+					@components.ModalClose(components.ModalCloseProps{
+						ModalID: "css-modal",
+					}) {
 						@components.Button(components.ButtonProps{
-							Text:    "Close",
 							Variant: "secondary",
-						})
+						}) {
+							Close
+						}
 					}
 				</div>
 			}
@@ -909,7 +937,7 @@ templ ThemeSelector() {
 						data-theme="zinc"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Zinc
@@ -926,7 +954,7 @@ templ ThemeSelector() {
 						data-theme="slate"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Slate
@@ -943,7 +971,7 @@ templ ThemeSelector() {
 						data-theme="stone"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Stone
@@ -960,7 +988,7 @@ templ ThemeSelector() {
 						data-theme="gray"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Gray
@@ -977,7 +1005,7 @@ templ ThemeSelector() {
 						data-theme="neutral"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Neutral
@@ -994,7 +1022,7 @@ templ ThemeSelector() {
 						data-theme="red"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Red
@@ -1011,7 +1039,7 @@ templ ThemeSelector() {
 						data-theme="rose"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Rose
@@ -1028,7 +1056,7 @@ templ ThemeSelector() {
 						data-theme="orange"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Orange
@@ -1045,7 +1073,7 @@ templ ThemeSelector() {
 						data-theme="green"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Green
@@ -1062,7 +1090,7 @@ templ ThemeSelector() {
 						data-theme="blue"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Blue
@@ -1079,7 +1107,7 @@ templ ThemeSelector() {
 						data-theme="yellow"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Yellow
@@ -1096,7 +1124,7 @@ templ ThemeSelector() {
 						data-theme="violet"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Violet

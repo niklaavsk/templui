@@ -4,6 +4,18 @@ import "github.com/axzilla/templui/components"
 
 templ InputOTPCustomLength() {
 	@components.InputOTP(components.InputOTPProps{
-		Length: 4,
-	})
+		ID: "otp-custom-length",
+	}) {
+		@components.InputOTPGroup() {
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index: 0,
+			})
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index: 1,
+			})
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index: 2,
+			})
+		}
+	}
 }

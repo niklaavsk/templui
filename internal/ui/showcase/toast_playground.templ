@@ -1,0 +1,213 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ ToastPlayground() {
+	<div class="w-full max-w-4xl mx-auto p-8">
+		<section class="mb-12">
+			@components.Card() {
+				@components.CardContent() {
+					<form
+						class="flex flex-col gap-2"
+						hx-post="/docs/toast/demo"
+						hx-trigger="submit"
+						hx-target="#toast-advanced-container"
+					>
+						// Message
+						@components.FormItem() {
+							@components.Label(components.LabelProps{
+								For: "title",
+							}) {
+								Message
+							}
+							@components.Input(components.InputProps{
+								Value: "You have a new notification",
+								ID:    "title",
+								Name:  "title",
+							})
+						}
+						// Description
+						@components.FormItem() {
+							@components.Label(components.LabelProps{
+								For: "description",
+							}) {
+								Description
+							}
+							@components.Input(components.InputProps{
+								Value: "Test Notification",
+								ID:    "description",
+								Name:  "description",
+							})
+						}
+						// Type
+						@components.FormItem() {
+							@components.Label(components.LabelProps{
+								For: "type",
+							}) {
+								Type
+							}
+							@components.Select() {
+								@components.SelectTrigger(components.SelectTriggerProps{
+									Name: "type",
+									ID:   "type",
+								}) {
+									@components.SelectValue(components.SelectValueProps{
+										Placeholder: "Default",
+									})
+								}
+								@components.SelectContent() {
+									@components.SelectGroup() {
+										@components.SelectItem(components.SelectItemProps{
+											Value:    "default",
+											Selected: true,
+										}) {
+											Default
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "success",
+										}) {
+											Success
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "error",
+										}) {
+											Error
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "warning",
+										}) {
+											Warning
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "info",
+										}) {
+											Info
+										}
+									}
+								}
+							}
+						}
+						// Position
+						@components.FormItem() {
+							@components.Label(components.LabelProps{
+								For: "position",
+							}) {
+								Position
+							}
+							@components.Select() {
+								@components.SelectTrigger(components.SelectTriggerProps{
+									Name: "position",
+									ID:   "position",
+								}) {
+									@components.SelectValue(components.SelectValueProps{
+										Placeholder: "Bottom Right",
+									})
+								}
+								@components.SelectContent() {
+									@components.SelectGroup() {
+										@components.SelectItem(components.SelectItemProps{
+											Value: "top-right",
+										}) {
+											Top Right
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "top-left",
+										}) {
+											Top Left
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "top-center",
+										}) {
+											Top Center
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value:    "bottom-right",
+											Selected: true,
+										}) {
+											Bottom Right
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "bottom-left",
+										}) {
+											Bottom Left
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "bottom-center",
+										}) {
+											Bottom Center
+										}
+									}
+								}
+							}
+						}
+						// Duration
+						@components.FormItem() {
+							@components.Label(components.LabelProps{
+								For: "duration",
+							}) {
+								Duration (ms)
+							}
+							@components.Input(components.InputProps{
+								Type:  "number",
+								Value: "3000",
+								ID:    "duration",
+								Name:  "duration",
+							})
+						}
+						// Options
+						@components.FormItem() {
+							@components.Label(components.LabelProps{
+								For: "dismissible",
+							}) {
+								Dismissible
+							}
+							@components.FormItemFlex() {
+								@components.Toggle(components.ToggleProps{
+									Name:    "dismissible",
+									Checked: true,
+									ID:      "dismissible",
+								})
+								@components.Label(components.LabelProps{
+									For: "dismissible",
+								}) {
+									Dimissible
+								}
+							}
+							@components.FormItemFlex() {
+								@components.Toggle(components.ToggleProps{
+									Name:    "icon",
+									Checked: true,
+								})
+								@components.Label(components.LabelProps{
+									For: "icon",
+								}) {
+									Show Icon
+								}
+							}
+							@components.FormItemFlex() {
+								@components.Toggle(components.ToggleProps{
+									ID:      "indicator",
+									Name:    "indicator",
+									Checked: true,
+								})
+								@components.Label(components.LabelProps{
+									For: "indicator",
+								}) {
+									Show Indicator
+								}
+							}
+						}
+						// Submit
+						@components.Button(components.ButtonProps{
+							Type:  "submit",
+							Class: "w-full",
+						}) {
+							Show Toast
+						}
+					</form>
+				}
+			}
+		</section>
+		<div id="toast-advanced-container"></div>
+	</div>
+}

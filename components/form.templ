@@ -2,71 +2,133 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-// FormItemProps represents form item properties
+type FormMessageVariant string
+
+const (
+	FormMessageVariantError FormMessageVariant = "error"
+	FormMessageVariantInfo  FormMessageVariant = "info"
+)
+
 type FormItemProps struct {
-	ID    string // Optional container ID
-	Class string // Additional CSS classes
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
-// FormLabelProps represents form label properties
 type FormLabelProps struct {
-	For           string // Target form element ID
-	Text          string // Label text
-	Class         string // Additional CSS classes
-	DisabledClass string // Additional CSS classes when the form element is disabled
+	ID            string
+	Class         string
+	Attributes    templ.Attributes
+	For           string
+	DisabledClass string
 }
 
-// FormDescriptionProps represents helper text properties
 type FormDescriptionProps struct {
-	Class string // Additional CSS classes
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
-// FormMessageProps represents feedback message properties
 type FormMessageProps struct {
-	Type    string // error, success, warning, info
-	Message string // Message text
-	Class   string // Additional CSS classes
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Variant    FormMessageVariant
 }
 
-// FormItem wraps form elements in a vertical layout
-templ FormItem(props FormItemProps) {
-	<div class={ utils.TwMerge("space-y-2", props.Class) }>
-		{ children... }
-	</div>
-}
-
-// FormItemFlex wraps form elements in a horizontal layout
-templ FormItemFlex(props FormItemProps) {
-	<div class={ utils.TwMerge("items-center flex space-x-2", props.Class) }>
-		{ children... }
-	</div>
-}
-
-// FormLabel renders a form label
-templ FormLabel(props FormLabelProps) {
-	@Label(LabelProps{
-		For:           props.For,
-		Class:         props.Class,
-		Text:          props.Text,
-		DisabledClass: props.DisabledClass,
-	})
-}
-
-// FormDescription renders helper text below form elements
-templ FormDescription(props FormDescriptionProps) {
-	<p class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }>
-		{ children... }
-	</p>
-}
-
-// FormMessage renders feedback messages
-templ FormMessage(props FormMessageProps) {
-	<p
-		class={
-			utils.TwMerge("text-[0.8rem] font-medium", props.Class),
-			templ.KV("text-destructive", props.Type == "error"),
+templ FormItem(props ...FormItemProps) {
+	{{ var p FormItemProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	<div
+		if p.ID != "" {
+			id={ p.ID }
 		}
+		class={ utils.TwMerge("space-y-2", p.Class) }
+		{ p.Attributes... }
 	>
-		{ props.Message }
+		{ children... }
+	</div>
+}
+
+templ FormItemFlex(props ...FormItemProps) {
+	{{ var p FormItemProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	<div
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("items-center flex space-x-2", p.Class) }
+		{ p.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ FormLabel(props ...FormLabelProps) {
+	{{ var p FormLabelProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	@Label(LabelProps{
+		ID:            p.ID,
+		Class:         p.Class,
+		DisabledClass: p.DisabledClass,
+		Attributes:    p.Attributes,
+		For:           p.For,
+	}) {
+		{ children... }
+	}
+}
+
+templ FormDescription(props ...FormDescriptionProps) {
+	{{ var p FormDescriptionProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	<p
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("text-sm text-muted-foreground", p.Class) }
+		{ p.Attributes... }
+	>
+		{ children... }
 	</p>
+}
+
+templ FormMessage(props ...FormMessageProps) {
+	{{ var p FormMessageProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	<p
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"text-[0.8rem] font-medium",
+				formMessageVariantClass(p.Variant),
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
+	>
+		{ children... }
+	</p>
+}
+
+func formMessageVariantClass(variant FormMessageVariant) string {
+	switch variant {
+	case FormMessageVariantError:
+		return "text-red-500"
+	case FormMessageVariantInfo:
+		return "text-blue-500"
+	default:
+		return ""
+	}
 }

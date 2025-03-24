@@ -2,91 +2,97 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-// SeparatorOrientation defines the orientation of the separator
 type SeparatorOrientation string
-
-// SeparatorDecoration defines the decoration style of the separator
 type SeparatorDecoration string
 
 const (
-	// SeparatorOrientationHorizontal defines a horizontal separator
 	SeparatorOrientationHorizontal SeparatorOrientation = "horizontal"
-	// SeparatorOrientationVertical defines a vertical separator
-	SeparatorOrientationVertical SeparatorOrientation = "vertical"
+	SeparatorOrientationVertical   SeparatorOrientation = "vertical"
 )
 
 const (
-	// SeparatorDecorationNone defines no decoration style
-	SeparatorDecorationNone SeparatorDecoration = "none"
-	// SeparatorDecorationDashed defines a dashed decoration style
+	SeparatorDecorationNone   SeparatorDecoration = "none"
 	SeparatorDecorationDashed SeparatorDecoration = "dashed"
-	// SeparatorDecorationDotted defines a dotted decoration style
 	SeparatorDecorationDotted SeparatorDecoration = "dotted"
 )
 
-// SeparatorProps configures the Separator component
 type SeparatorProps struct {
-	Orientation SeparatorOrientation // Direction of the separator (horizontal or vertical)
-	Decoration  SeparatorDecoration  // Decoration style (none, dashed, dotted)
-	Label       string               // Optional label text to display in the middle
-	Class       string               // Additional CSS classes
-	Attributes  templ.Attributes     // Additional HTML attributes
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
+	Orientation SeparatorOrientation
+	Decoration  SeparatorDecoration
+	Label       string
 }
 
-// Separator creates a visual divider between content with optional label
-//
-// Props:
-//   - Orientation: Direction of the separator ("horizontal" or "vertical"). Default: "horizontal"
-//   - Decoration: Decoration style (none, dashed, dotted). Default: none
-//   - Label: Optional text to display in the middle of the separator
-//   - Class: Additional CSS classes to apply
-//   - Attributes: Additional HTML attributes to apply
-templ Separator(props SeparatorProps) {
+templ Separator(props ...SeparatorProps) {
+	{{ var p SeparatorProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.Orientation == "" {
+		{{ p.Orientation = SeparatorOrientationHorizontal }}
+	}
 	<div
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		role="separator"
-		aria-orientation={ string(props.Orientation) }
+		aria-orientation={ string(p.Orientation) }
 		class={
 			utils.TwMerge(
-				// Base styles
 				"shrink-0",
-		
-				// For horizontal separators with label, we don't add border to the main div
-				// as the border will be added to the span element inside
-				utils.TwIf(getOrientationClasses(props.Orientation),
-					!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal)),
-		
-				// We still want height/width even with label
-				utils.TwIf("h-[1px] w-full", props.Orientation == SeparatorOrientationHorizontal),
-				utils.TwIf("h-full w-[1px]", props.Orientation == SeparatorOrientationVertical),
-		
-				// Decoration styles - only apply to main container if no label
-				utils.TwIf(getDecorationClasses(props.Decoration),
-					!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal)),
-		
-				// Custom classes
-				props.Class,
+				utils.If(!(p.Label != "" && p.Orientation == SeparatorOrientationHorizontal),
+					utils.If(!(p.Label != "" && p.Orientation == SeparatorOrientationVertical),
+						getOrientationClasses(p.Orientation),
+					),
+				),
+				utils.If(p.Orientation == SeparatorOrientationHorizontal, "h-[1px] w-full"),
+				utils.If(p.Orientation == SeparatorOrientationVertical, "h-full w-[1px]"),
+				utils.If(!(p.Label != "" && p.Orientation == SeparatorOrientationHorizontal),
+					utils.If(!(p.Label != "" && p.Orientation == SeparatorOrientationVertical),
+						getDecorationClasses(p.Decoration),
+					),
+				),
+				p.Class,
 			),
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
-		if props.Label != "" && props.Orientation == SeparatorOrientationHorizontal {
+		if p.Label != "" && p.Orientation == SeparatorOrientationHorizontal {
 			<div class="relative flex items-center w-full">
 				<span
-					class={ utils.TwMerge(
+					class={
+						utils.TwMerge(
 							"absolute w-full border-t",
-							getDecorationClasses(props.Decoration),
-						) }
+							getDecorationClasses(p.Decoration),
+						),
+					}
 					aria-hidden="true"
 				></span>
 				<span class="relative mx-auto bg-background px-2 text-xs text-muted-foreground">
-					{ props.Label }
+					{ p.Label }
+				</span>
+			</div>
+		} else if p.Label != "" && p.Orientation == SeparatorOrientationVertical {
+			<div class="relative flex flex-col items-center h-full">
+				<span
+					class={
+						utils.TwMerge(
+							"absolute h-full border-l",
+							getDecorationClasses(p.Decoration),
+						),
+					}
+					aria-hidden="true"
+				></span>
+				<span class="relative my-auto bg-background px-2 text-xs text-muted-foreground">
+					{ p.Label }
 				</span>
 			</div>
 		}
 	</div>
 }
 
-// getOrientationClasses returns the appropriate CSS classes based on orientation
 func getOrientationClasses(orientation SeparatorOrientation) string {
 	if orientation == SeparatorOrientationVertical {
 		return "border-l"
@@ -94,7 +100,6 @@ func getOrientationClasses(orientation SeparatorOrientation) string {
 	return "border-t"
 }
 
-// getDecorationClasses returns the appropriate CSS classes based on decoration style
 func getDecorationClasses(decoration SeparatorDecoration) string {
 	switch decoration {
 	case SeparatorDecorationDashed:

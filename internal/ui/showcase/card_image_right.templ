@@ -1,0 +1,34 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ CardImageRight() {
+	<div class="w-full max-w-sm">
+		@components.Card() {
+			@components.CardHorizontal() {
+				<div class="flex flex-col flex-1">
+					@components.CardHeader() {
+						@components.CardTitle() {
+							Side Image Card
+						}
+						@components.CardDescription() {
+							With right-aligned image
+						}
+					}
+					@components.CardContent() {
+						<p>This card demonstrates the right image layout.</p>
+					}
+				</div>
+				@components.CardMedia(components.CardMediaProps{
+					ID:          "right-media",
+					Alt:         "Right side image",
+					Position:    components.CardMediaRight,
+					Width:       components.CardMediaWidthThird,
+					AspectRatio: components.AspectRatioAuto,
+					Src:         "/assets/img/card_placeholder.jpeg",
+				},
+				)
+			}
+		}
+	</div>
+}

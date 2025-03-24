@@ -3,19 +3,26 @@ package components
 import "github.com/axzilla/templui/utils"
 
 type SkeletonProps struct {
-	Class      string           // Additional CSS classes to apply to the skeleton element
-	Attributes templ.Attributes // Additional attributes to apply to the skeleton element
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
-// Skeleton creates a placeholder element that indicates content is loading
-// It's designed to be a simple building block that users can compose into
-// more complex loading UI patterns
-templ Skeleton(props SkeletonProps) {
+templ Skeleton(props ...SkeletonProps) {
+	{{ var p SkeletonProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		class={ utils.TwMerge(
-			"animate-pulse rounded bg-muted",
-			props.Class,
-		) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"animate-pulse rounded bg-muted",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	></div>
 }
